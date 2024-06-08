@@ -1,18 +1,30 @@
 from ControllerClass.ClassConnectAPI import ControllerAPIConnect
 
 from binance.enums import *
+from binance.exceptions import BinanceAPIException
+
 import pandas as pd
 
 class ControllerNegotiation:
     @classmethod
     def compraCripto(self, criptoPar, quantidade):
         client = ControllerAPIConnect.connectStatus()
-        #ordem = client.create_order(symbol=criptoPar, side='SIDE_BUY', type='ORDER_TYPE_MARKET', quantity=0.0001)
-        print('Compra Realizada com Sucesso!')
+        try:
+            ordem = client.create_order(symbol=criptoPar, side='SIDE_BUY', type='ORDER_TYPE_MARKET', quantity=0.0001)
+            print('Compra Realizada com Sucesso!')
+            #return ordem
+        except BinanceAPIException as e:
+            print('Erro ao realizar essa compra.')
+            print(f'Erro: {e.status_code} - {e.message}')
     
     @classmethod
     def vendaCripto(self):
-        print('Venda Realizada com Sucesso!')
+        try:
+            #ordem = client.create_order(symbol=self.criptoPar, side='SIDE_SELL', type='ORDER_TYPE_MARKET', quantity=0.0001)
+            print('Venda Realizada com Sucesso!')
+        except BinanceAPIException as e:
+            print('Erro ao realizar essa venda.')
+            print(f'Erro: {e.status_code} - {e.message}')
 
    
 #ORIGIAL

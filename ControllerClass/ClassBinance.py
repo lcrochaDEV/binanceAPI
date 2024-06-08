@@ -1,5 +1,6 @@
 from binance.client import Client
 from ControllerClass.ClassConnectAPI import ControllerAPIConnect
+import pandas as pd
 from datetime import datetime
 
 class ControllerBinance:
@@ -47,5 +48,31 @@ class ControllerBinance:
 
         #res = client.get_historical_klines(self.criptoPar, '3m', '30m')
         print()
-                
+    
+    # NOME DA MOEDA
+    def simbolName(self, msg=False):
+        client = ControllerAPIConnect.connectStatus() 
+        infom = client.get_margin_asset(asset=self.criptoName)
+        if msg == False:
+            print(f"Dados de {infom['assetFullName']}({infom['assetName']}): ")
+        else:
+            return f"Dados de {infom['assetFullName']}({infom['assetName']}): "
 
+    # TABELAS 
+    def tabela(self, start_str = '3m', end_str = '30m', numb_colunas=6, listArray = ["date_open", "Open", "High", "Low", "Close", "Volume"]):
+        client = ControllerAPIConnect.connectStatus()
+        # PEGAR DADOS
+        df = pd.DataFrame(client.get_historical_klines(self.criptoPar, start_str, end_str))
+        df = df.iloc[:,:numb_colunas]
+        df.columns = listArray
+        df = df.set_index(listArray[0])
+        df.index = pd.to_datetime(df.index, unit='ms')
+        df = df.astype(float)
+        return df
+    
+    def calculoValorQuantidade(self):
+        client = ControllerAPIConnect.connectStatus()
+        #CALCULO DO VALOR EM USDT CONVETENDO PARA QUANTIDADE EM CRIPTO
+        flm_price = client.get_margin_price_index(symbol=self.criptoPar)
+        # VALOR EM DOLAR(USDT)
+        return round(self.quantidade / float(flm_price['price']), 3)
