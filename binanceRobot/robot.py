@@ -28,6 +28,9 @@ bot.polling(none_stop=True)
 def teclado(message):
     bot.send_photo(chat_id, open("foto.png"))
 
+ControllerBot.menuBot('💻 Buttom 1')
+
+'''
 #Command /start
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -66,7 +69,7 @@ def button4(message):
 def buttonIP(message):
     bot.send_message(message.chat.id, f'IP Publico: {ControllerIP.meuip()}')
     
+'''
 #Start bot
 if __name__ == '__main__':
     bot.polling(none_stop=True)
-

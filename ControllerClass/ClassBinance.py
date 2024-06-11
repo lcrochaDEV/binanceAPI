@@ -1,7 +1,8 @@
-from binance.client import Client
-from ControllerClass.ClassConnectAPI import ControllerAPIConnect
+from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 import pandas as pd
 from datetime import datetime
+
+client = ControllerAPIConnect.connectStatus()  
 
 class ControllerBinance:
     def __init__(self, criptoName, criptoPar, quantidade=0):
@@ -19,8 +20,7 @@ class ControllerBinance:
         print(f'{server_time}\n')
 
     @staticmethod
-    def saldo():
-        client = ControllerAPIConnect.connectStatus()       
+    def saldo():   
         # EXTRATO DE SALDO DO ATIVOS QUE TEMOS EM CONTA
         info = client.get_account()
         lista_ativos = info["balances"]
@@ -31,19 +31,20 @@ class ControllerBinance:
     @staticmethod
     def saldo_unid(cripto):
         ControllerBinance.data()
-        client = ControllerAPIConnect.connectStatus()  
         balance = client.get_asset_balance(asset=cripto)
         print(f"Cripto: {balance['asset']} Saldo: {balance['free']}")
 
-    def calculoValorQuantidade(self):
+    def calculoValorQuantidade(self, Screem = False):
         client = ControllerAPIConnect.connectStatus()
         #CALCULO DO VALOR EM USDT CONVETENDO PARA QUANTIDADE EM CRIPTO
         flm_price = client.get_margin_price_index(symbol=self.criptoPar)
         # VALOR EM DOLAR(USDT)
-        return round(self.quantidade / float(flm_price['price']), 3)
-    
+        if Screem == True:
+            print(round(self.quantidade / float(flm_price['price']), 3))
+        else:
+            return round(self.quantidade / float(flm_price['price']), 3)
+            
     def verificarDados(self):
-        client = ControllerAPIConnect.connectStatus()  
         infom = client.get_margin_asset(asset=self.criptoName)
         infob = client.get_asset_balance(asset=self.criptoName)
         tickers  = client.get_ticker(symbol=self.criptoPar)
@@ -59,7 +60,6 @@ class ControllerBinance:
     
     # NOME DA MOEDA
     def simbolName(self, msg=False):
-        client = ControllerAPIConnect.connectStatus() 
         infom = client.get_margin_asset(asset=self.criptoName)
         if msg == False:
             print(f"Dados de {infom['assetFullName']}({infom['assetName']}): ")
@@ -68,7 +68,6 @@ class ControllerBinance:
 
     # TABELAS
     def tabela(self, start_str = '3m', end_str = '30m', numb_colunas=6, listArray = ["date_open", "Open", "High", "Low", "Close", "Volume"], Screem = False):
-        client = ControllerAPIConnect.connectStatus()
         # PEGAR DADOS
         df = pd.DataFrame(client.get_historical_klines(self.criptoPar, start_str, end_str))
         df = df.iloc[:,:numb_colunas]
@@ -77,7 +76,6 @@ class ControllerBinance:
         df.index = pd.to_datetime(df.index, unit='ms')
         df = df.astype(float)
         if Screem == True:
-            ########### COLOCAR O TITULO DA MOEDA NESSE LOCAL ###########
             self.simbolName()
             print(df)
         else:

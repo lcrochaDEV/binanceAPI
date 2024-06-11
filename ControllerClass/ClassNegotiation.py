@@ -1,4 +1,4 @@
-from ControllerClass.ClassConnectAPI import ControllerAPIConnect
+from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 
 from binance.enums import *
 from binance.exceptions import BinanceAPIException
@@ -9,6 +9,12 @@ class ControllerNegotiation:
     @classmethod
     def compraCripto(self, criptoPar, quantidade):
         client = ControllerAPIConnect.connectStatus()
+        #PEGAR O VALOR DA QUANTIDADE MINIMA E MAXIMA⬇
+        info = client.get_symbol_info(criptoPar)
+        filte = info['filters']
+        #INCONPLETO⬆
+
+
         try:
             ordem = client.create_order(symbol=criptoPar, side='SIDE_BUY', type='ORDER_TYPE_MARKET', quantity=0.0001)
             print('Compra Realizada com Sucesso!')

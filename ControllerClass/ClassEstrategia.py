@@ -1,8 +1,7 @@
-from ControllerClass.ClassConnectAPI import ControllerAPIConnect
+from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 from ControllerClass.ClassNegotiation import ControllerNegotiation
 from ControllerClass.ClassBinance import ControllerBinance
 
-import time
 import asyncio
 
 # ESTRATÉGIA
@@ -22,16 +21,14 @@ class ControllerEstrategia(ControllerBinance):
             df = self.tabela()
             acumulados = (df.Open.pct_change() +1).cumprod() -1
             #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] < -0.002:
+            if acumulados.iloc[-1] > -0.002:
                 ControllerNegotiation.compraCripto(self.criptoPar, self.quantidade)
                 #self.__stop()
                 break
             else: 
                 print(f'{self.simbolName(True)}Sem Ordens nos últimos 30 minutos')
-                await asyncio.sleep(1800)
-                #time.sleep(1800) #30 minutos
-                #time.sleep(200/1000)
-                
+                #await asyncio.sleep(1800)
+                await asyncio.sleep(20)             
 
     def __stop(self):
             client = ControllerAPIConnect.connectStatus()
@@ -44,6 +41,7 @@ class ControllerEstrategia(ControllerBinance):
                 infom = client.get_margin_asset(asset=self.criptoName)
                 #print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")
                 df = self.tabela(2, ["date_open", "Open"])
+                
 '''                                  
                 ordem_executada = df.loc[df.index > pd.to_datetime(ordem['transactTime'], unit='ms')]
  

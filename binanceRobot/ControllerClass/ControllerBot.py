@@ -13,40 +13,22 @@ chat_id = os.getenv("CHAT_ID")
 bot = telebot.TeleBot(token)
 
 class ControllerBot:
-    def __init__(self, textMenu, textResult):
-        self.textMenu = textMenu
+    def __init__(self, textBtn, textResult):
+        self.textBtn = textBtn
         self.textResult = textResult
     
+    #def menuBot(textBtn):
     #Command /start
     @bot.message_handler(commands=['start'])
     def start(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        item1 = types.KeyboardButton("💻 Buttom 1")
+        item1 = types.KeyboardButton(textBtn)
+
         markup.add(item1)
+        
         bot.send_message(message.chat.id, "Selecione uma Opção:", reply_markup=markup)
 
     #Buttom 1
-    @bot.message_handler(func=lambda message: message.text == "Buttom 1")
-    def button1(message):
-        bot.send_message(message.chat.id, "U Select Buttom 1")
-
-    if __name__ == '__main__':
-        bot.polling(none_stop=True)
-
-'''
-    #Command /start
-    @bot.message_handler(commands=['start'])
-    def start(message):
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        item1 = types.KeyboardButton("Buttom 1")
-        markup.add(item1)
-        bot.send_message(message.chat.id, "Selecione uma Opção:", reply_markup=markup)
-
-    #Buttom 1
-    @bot.message_handler(func=lambda message: message.text == "Buttom 1")
+    @bot.message_handler(func=lambda message: message.text == textBtn)
     def button1(message):
         bot.send_message(message.chat.id, "U select buttom 1")
-
-    if __name__ == '__main__':
-        bot.polling(none_stop=True)
-'''

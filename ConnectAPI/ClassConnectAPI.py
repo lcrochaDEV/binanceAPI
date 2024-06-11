@@ -7,10 +7,13 @@ class ControllerAPIConnect:
 
     @classmethod
     def __connectApi(cls):
-        API_KEY_BINANCE = os.getenv("API_KEY")
-        API_SECRET_BINANCE = os.getenv("API_SECRET")
-        return Client(API_KEY_BINANCE, API_SECRET_BINANCE)
-    
+        try:
+            API_KEY_BINANCE = os.getenv("API_KEY")
+            API_SECRET_BINANCE = os.getenv("API_SECRET")
+            return Client(API_KEY_BINANCE, API_SECRET_BINANCE)
+        except:
+            print(f'Sem conexão com a API da Binance')
+
     @staticmethod
     def connectStatus(msg=False):
         client = ControllerAPIConnect.__connectApi()
@@ -22,7 +25,7 @@ class ControllerAPIConnect:
                 return client
             else:
                 print(f'Sem conexão com a API da Binance')
-                ControllerAPIConnect.connectStatus()
-            break 
+                continue
+
             
-#ENVIO DE DADOS PARA API DO RELEGRAM PEDINDO TROA DE IP
+#ENVIO DE DADOS PARA API DO TELEGRAM PEDINDO TROCA DE IP

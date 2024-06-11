@@ -1,4 +1,4 @@
-from ControllerClass.ClassConnectAPI import ControllerAPIConnect
+from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 
 
 class ControllerEstrategia():

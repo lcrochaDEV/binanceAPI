@@ -1,12 +1,12 @@
 from ControllerClass.ClassBinance import ControllerBinance
 from ControllerClass.ClassEstrategia import ControllerEstrategia
-import time as time
 from ControllerClass.ClassAsync import AssyncExec
-   
-import asyncio
-  
-Binance = ControllerBinance("NOT", "NOTUSDT")
+from Mensagem.ClassInfo import ControllerInfo
+ 
+Binance = ControllerBinance("NOT", "NOTUSDT", 25)
+Binance.calculoValorQuantidade(Screem = True)
 Binance.tabela(Screem = True)
+
 NOT = ControllerEstrategia("NOT", "NOTUSDT", 9.2267)
 
 #ControllerBinance.tabela('BTCUSDT')
@@ -14,24 +14,12 @@ BTC = ControllerEstrategia("BTC", "BTCUSDT", 9.2267)
 
 #ControllerBinance.tabela('ETHUSDT')
 ETH = ControllerEstrategia("ETH", "ETHUSDT", 9.2267)
-
 AssyncExec.asyncAction(
     NOT.exec(), 
     BTC.exec(), 
     ETH.exec(),
 )
-#AssyncExec.asyncAction(BTC.exec())
-#AssyncExec.asyncAction(ETH.exec())
-
-
 '''
-async def order():
-    await asyncio.gather(
-        NOT.exec(),
-        BTC.exec(),
-        ETH.exec(),          
-    )
-asyncio.run(order()) 
 '''
 '''
 if __name__ == '__main__':
