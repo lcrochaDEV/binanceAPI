@@ -1,29 +1,30 @@
 from ControllerClass.ClassBinance import ControllerBinance
 from ControllerClass.ClassEstrategia import ControllerEstrategia
 import time as time
-
+from ControllerClass.ClassAsync import AssyncExec
    
 import asyncio
   
-
+Binance = ControllerBinance("NOT", "NOTUSDT")
+Binance.tabela(Screem = True)
 NOT = ControllerEstrategia("NOT", "NOTUSDT", 9.2267)
-NOT.simbolName()
-df = NOT.tabela()
-print(df)
-#NOT.ordensCompra()
-  
+
+#ControllerBinance.tabela('BTCUSDT')
 BTC = ControllerEstrategia("BTC", "BTCUSDT", 9.2267)
-BTC.simbolName()
-df = BTC.tabela()
-print(df)
-#BTC.ordensCompra()
 
+#ControllerBinance.tabela('ETHUSDT')
 ETH = ControllerEstrategia("ETH", "ETHUSDT", 9.2267)
-ETH.simbolName()
-df = ETH.tabela()
-print(df)
-#ETH.ordensCompra()
 
+AssyncExec.asyncAction(
+    NOT.exec(), 
+    BTC.exec(), 
+    ETH.exec(),
+)
+#AssyncExec.asyncAction(BTC.exec())
+#AssyncExec.asyncAction(ETH.exec())
+
+
+'''
 async def order():
     await asyncio.gather(
         NOT.exec(),
@@ -31,6 +32,7 @@ async def order():
         ETH.exec(),          
     )
 asyncio.run(order()) 
+'''
 '''
 if __name__ == '__main__':
     consoleName = 'Trade CLI'

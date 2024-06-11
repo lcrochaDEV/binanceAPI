@@ -4,9 +4,10 @@ import pandas as pd
 from datetime import datetime
 
 class ControllerBinance:
-    def __init__(self, criptoName, criptoPar):
+    def __init__(self, criptoName, criptoPar, quantidade=0):
         self.criptoName = criptoName
         self.criptoPar = criptoPar
+        self.quantidade = quantidade
 
     @staticmethod 
     def data():
@@ -34,6 +35,13 @@ class ControllerBinance:
         balance = client.get_asset_balance(asset=cripto)
         print(f"Cripto: {balance['asset']} Saldo: {balance['free']}")
 
+    def calculoValorQuantidade(self):
+        client = ControllerAPIConnect.connectStatus()
+        #CALCULO DO VALOR EM USDT CONVETENDO PARA QUANTIDADE EM CRIPTO
+        flm_price = client.get_margin_price_index(symbol=self.criptoPar)
+        # VALOR EM DOLAR(USDT)
+        return round(self.quantidade / float(flm_price['price']), 3)
+    
     def verificarDados(self):
         client = ControllerAPIConnect.connectStatus()  
         infom = client.get_margin_asset(asset=self.criptoName)
@@ -58,8 +66,8 @@ class ControllerBinance:
         else:
             return f"Dados de {infom['assetFullName']}({infom['assetName']}): "
 
-    # TABELAS 
-    def tabela(self, start_str = '3m', end_str = '30m', numb_colunas=6, listArray = ["date_open", "Open", "High", "Low", "Close", "Volume"]):
+    # TABELAS
+    def tabela(self, start_str = '3m', end_str = '30m', numb_colunas=6, listArray = ["date_open", "Open", "High", "Low", "Close", "Volume"], Screem = False):
         client = ControllerAPIConnect.connectStatus()
         # PEGAR DADOS
         df = pd.DataFrame(client.get_historical_klines(self.criptoPar, start_str, end_str))
@@ -68,11 +76,10 @@ class ControllerBinance:
         df = df.set_index(listArray[0])
         df.index = pd.to_datetime(df.index, unit='ms')
         df = df.astype(float)
-        return df
+        if Screem == True:
+            ########### COLOCAR O TITULO DA MOEDA NESSE LOCAL ###########
+            self.simbolName()
+            print(df)
+        else:
+            return df
     
-    def calculoValorQuantidade(self):
-        client = ControllerAPIConnect.connectStatus()
-        #CALCULO DO VALOR EM USDT CONVETENDO PARA QUANTIDADE EM CRIPTO
-        flm_price = client.get_margin_price_index(symbol=self.criptoPar)
-        # VALOR EM DOLAR(USDT)
-        return round(self.quantidade / float(flm_price['price']), 3)
