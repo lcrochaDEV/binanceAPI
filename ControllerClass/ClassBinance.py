@@ -40,7 +40,7 @@ class ControllerBinance:
         flm_price = client.get_margin_price_index(symbol=self.criptoPar)
         # VALOR EM DOLAR(USDT)
         if Screem == True:
-            print(round(self.quantidade / float(flm_price['price']), 3))
+            print(f"{round(self.quantidade / float(flm_price['price']), 3)}")
         else:
             return round(self.quantidade / float(flm_price['price']), 3)
             

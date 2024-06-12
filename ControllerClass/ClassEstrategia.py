@@ -21,7 +21,7 @@ class ControllerEstrategia(ControllerBinance):
             df = self.tabela()
             acumulados = (df.Open.pct_change() +1).cumprod() -1
             #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] > -0.002:
+            if acumulados.iloc[-1] < -0.002:
                 ControllerNegotiation.compraCripto(self.criptoPar, self.quantidade)
                 #self.__stop()
                 break

@@ -4,7 +4,6 @@ from ControllerClass.ClassAsync import AssyncExec
 from Mensagem.ClassInfo import ControllerInfo
  
 Binance = ControllerBinance("NOT", "NOTUSDT", 25)
-Binance.calculoValorQuantidade(Screem = True)
 Binance.tabela(Screem = True)
 
 NOT = ControllerEstrategia("NOT", "NOTUSDT", 9.2267)
