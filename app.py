@@ -3,20 +3,20 @@ from ControllerClass.ClassEstrategia import ControllerEstrategia
 from ControllerClass.ClassAsync import AssyncExec
 from Mensagem.ClassInfo import ControllerInfo
  
-Binance = ControllerBinance("NOT", "NOTUSDT", 25)
-Binance.tabela(Screem = True)
+Binance = ControllerBinance("NOT", "NOTUSDT", 9.2267)
+#Binance.tabela(Screem=True)
 
 NOT = ControllerEstrategia("NOT", "NOTUSDT", 9.2267)
 
 #ControllerBinance.tabela('BTCUSDT')
-BTC = ControllerEstrategia("BTC", "BTCUSDT", 9.2267)
+#BTC = ControllerEstrategia("BTC", "BTCUSDT", 9.2267)
 
 #ControllerBinance.tabela('ETHUSDT')
-ETH = ControllerEstrategia("ETH", "ETHUSDT", 9.2267)
+#ETH = ControllerEstrategia("ETH", "ETHUSDT", 9.2267)
 AssyncExec.asyncAction(
     NOT.exec(), 
-    BTC.exec(), 
-    ETH.exec(),
+    #BTC.exec(), 
+    #ETH.exec(),
 )
 '''
 '''

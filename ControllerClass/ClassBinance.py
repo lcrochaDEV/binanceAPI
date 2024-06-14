@@ -69,15 +69,18 @@ class ControllerBinance:
     # TABELAS
     def tabela(self, start_str = '3m', end_str = '30m', numb_colunas=6, listArray = ["date_open", "Open", "High", "Low", "Close", "Volume"], Screem = False):
         # PEGAR DADOS
-        df = pd.DataFrame(client.get_historical_klines(self.criptoPar, start_str, end_str))
-        df = df.iloc[:,:numb_colunas]
-        df.columns = listArray
-        df = df.set_index(listArray[0])
-        df.index = pd.to_datetime(df.index, unit='ms')
-        df = df.astype(float)
-        if Screem == True:
-            self.simbolName()
-            print(df)
-        else:
-            return df
+        try:
+            df = pd.DataFrame(client.get_historical_klines(self.criptoPar, start_str, end_str))
+            df = df.iloc[:,:numb_colunas]
+            df.columns = listArray
+            df = df.set_index(listArray[0])
+            df.index = pd.to_datetime(df.index, unit='ms')
+            df = df.astype(float)
+            if Screem == True:
+                self.simbolName()
+                print(df)
+            else:
+                return df
+        except:
+            print('Não retornou uma tabela')
     

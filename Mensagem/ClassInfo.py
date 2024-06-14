@@ -24,5 +24,10 @@ class ControllerInfo:
     def infoCalculoValorQuantidade():
         print('def calculoValorQuantidade(self, Screem = False):')
         print('    msg = mostra/oculta mensagem na tela.', end='\n\n')
+    def infoConnectStatus():
+        print('def connectStatus(msg=False):')
+        print('    msg = mostra/oculta mensagem na tela.', end='\n\n')
+        
+        
+        
         pass
-    

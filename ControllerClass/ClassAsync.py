@@ -1,14 +1,15 @@
 import asyncio
 
-class AssyncExec():
+class AssyncExec:
 
-    async def __asyncfunction(args):
-        await asyncio.gather(*args)  
+    @classmethod
+    async def __asyncfunction(self, args, kwargs):
+        await asyncio.gather(*args, **kwargs)  
         pass
 
-    @staticmethod
-    def asyncAction(*args):
+    @classmethod
+    def asyncAction(self, *args, **kwargs):
         try:
-            asyncio.run(AssyncExec.__asyncfunction(args))
+            asyncio.run(self.__asyncfunction(args, kwargs))
         except:
             print('Erro ao Executar Ordem')
