@@ -2,42 +2,22 @@ from ControllerClass.ClassBinance import ControllerBinance
 from ControllerClass.ClassEstrategia import ControllerEstrategia
 from ControllerClass.ClassAsync import AssyncExec
 from Mensagem.ClassInfo import ControllerInfo
+from Console.ClassCosole import ControllerCmd
  
-Binance = ControllerBinance("NOT", "NOTUSDT", 9.2267)
-#Binance.tabela(Screem=True)
 
-NOT = ControllerEstrategia("NOT", "NOTUSDT", 9.2267)
+#ControllerBinance.tabela("ETHUSDT", Screem=True)
+#ControllerBinance.tabela("BTCUSDT", Screem=True)
+#ControllerBinance.tabela("NOTUSDT", Screem=True)
 
-#ControllerBinance.tabela('BTCUSDT')
-#BTC = ControllerEstrategia("BTC", "BTCUSDT", 9.2267)
-
-#ControllerBinance.tabela('ETHUSDT')
-#ETH = ControllerEstrategia("ETH", "ETHUSDT", 9.2267)
 AssyncExec.asyncAction(
-    NOT.exec(), 
-    #BTC.exec(), 
-    #ETH.exec(),
+    #ControllerEstrategia.ordensCompra("ETHUSDT", 9.2267),
+    #ControllerEstrategia.ordensCompra("BTCUSDT", 9.2267),
+    #ControllerEstrategia.ordensCompra("NOTUSDT", 9.2267),
 )
-'''
-'''
-'''
+
+
 if __name__ == '__main__':
-    consoleName = 'Trade CLI'
-    while True:
-        try:
-            conole = int(input(f'{consoleName}:'))
-        except ValueError:
-            print('ERRO: Digite um Comando valido', end="\n\n")
-        except KeyboardInterrupt:
-            print(f'\n{consoleName} Finalizado!')
-            break
-        else:
-            print('...')
-'''        
-
-
-
-
+    ControllerCmd.cmd()
 
 #PEGA 100% DE UM CRIPTO PARA QUALQUER MOÉDA CRIPTO
 '''

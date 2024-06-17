@@ -13,7 +13,7 @@ class ControllerAPIConnect:
             API_SECRET_BINANCE = os.getenv("API_SECRET")
             return Client(API_KEY_BINANCE, API_SECRET_BINANCE)
         except BinanceAPIException as e:
-            print(f'{e.status_code} - {e.message}')
+            print(f'Binance Error: {e.status_code} - {e.message}')
             print(f'Chave ou senha incorretos em Binance API')
 
     @staticmethod

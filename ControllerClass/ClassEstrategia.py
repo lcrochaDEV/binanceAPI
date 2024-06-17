@@ -6,28 +6,23 @@ import asyncio
 
 # ESTRATÉGIA
 class ControllerEstrategia(ControllerBinance):
-    def __init__(self, criptoName, criptoPar, quantidade):
-        self.criptoName = criptoName
-        self.criptoPar = criptoPar
-        self.quantidade = quantidade
-
-    async def exec(self):
-        await self.__ordensCompra()
-    
-    async def __ordensCompra(self):
+    @classmethod
+    async def ordensCompra(self, criptoPar, quantidade):
+        ControllerNegotiation.c('NV')
         # ESTRATÉGIA DE COMPRA E VENDA
         while True:
             # TABELAS 
-            df = self.tabela()
+            df = self.tabela(criptoPar)
             acumulados = (df.Open.pct_change() +1).cumprod() -1
             #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] < -0.002:
-                ControllerNegotiation.compraCripto(self.criptoPar, self.quantidade)
+            if acumulados.iloc[-1] > -0.002:
+                ordemDeCompra = ControllerNegotiation(criptoPar, quantidade)
+                ordemDeCompra.exec()
                 break
             else: 
-                print(f'{self.simbolName(True)}Sem Ordens nos últimos 30 minutos')
-                #await asyncio.sleep(1800)
+                print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos')
                 await asyncio.sleep(20)             
+                #await asyncio.sleep(1800)
 
 '''                                  
     def __stop(self):
@@ -35,7 +30,7 @@ class ControllerEstrategia(ControllerBinance):
             # ESTRATÉGIA DE COMPRA E VENDA
             while True:  
                 # TABELAS 
-                df = self.tabela()
+                df = self.tabela(self.criptoPar)
                 acumulados = (df.Open.pct_change() +1).cumprod() -1
                 # CARTEIRA SPOT
                 infom = client.get_margin_asset(asset=self.criptoName)

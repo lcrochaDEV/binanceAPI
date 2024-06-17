@@ -1,7 +1,6 @@
 from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 
-
-class ControllerEstrategia():
+class ControllerMessenger():
     #Menssagem Notcoin(NOT) em Processamento...
     def __menssagem(self):  
         client = ControllerAPIConnect.connectStatus()

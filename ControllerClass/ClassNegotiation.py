@@ -3,39 +3,44 @@ from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 from binance.enums import *
 from binance.exceptions import BinanceAPIException
 
-import pandas as pd
-
 class ControllerNegotiation:
-    @classmethod
-    def compraCripto(self, criptoPar, quantidade):
+    def __init__(self, criptoPar, quantidade=0):
+        self.criptoPar = criptoPar
+        self.quantidade = quantidade
+    
+    def exec(self):
+        self.__compraCripto()
+    
+    def __compraCripto(self):
         client = ControllerAPIConnect.connectStatus()
         try:
             #PEGAR O VALOR DA QUANTIDADE MINIMA
-            info = client.get_symbol_info(criptoPar)
+            info = client.get_symbol_info(self.criptoPar)
             filterMinQty = next((x for x in info['filters'] if x['filterType'] == 'LOT_SIZE'), None)
-            minQty = round(float(filterMinQty['minQty']), 2) if filterMinQty else None
-            if minQty >= quantidade:
-                ordem = client.create_order(symbol=criptoPar, side='SIDE_BUY', type='ORDER_TYPE_MARKET', quantity=0.0001)
+            minQty = round(float(filterMinQty['minQty']), 5) if filterMinQty else None
+            if minQty >= self.quantidade:
+                ordem = client.create_order(symbol=self.criptoPar, side='SIDE_BUY', type='ORDER_TYPE_MARKET', quantity=0.0001)
                 print('Compra Realizada com Sucesso!')
                 #return ordem
             else:
-                print(f'Investimento Minimo em {criptoPar} Permitido {minQty}')
+                print(f'Investimento Minimo em {self.criptoPar} Permitido {minQty}')
         except BinanceAPIException as e:
             print('Erro ao realizar essa compra.')
-            print(f'Erro: {e.status_code} - {e.message}')
-            
-    @classmethod
-    def vendaCripto(self):
+            print(f'Binance Error: {e.status_code} - {e.message}')
+
+    def __vendaCripto(self):
         try:
             #ordem = client.create_order(symbol=self.criptoPar, side='SIDE_SELL', type='ORDER_TYPE_MARKET', quantity=0.0001)
             print('Venda Realizada com Sucesso!')
         except BinanceAPIException as e:
             print('Erro ao realizar essa venda.')
-            print(f'Erro: {e.status_code} - {e.message}')
+            print(f'Binance Error: {e.status_code} - {e.message}')
 
    
 #ORIGIAL
 '''
+import pandas as pd
+
         df = self.tabela()
         compra = False
         # ESTRATÉGIA DE COMPRA E VENDA
