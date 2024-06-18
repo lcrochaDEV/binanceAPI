@@ -1,30 +1,39 @@
 from ControllerClass.ClassBinance import ControllerBinance
-from Console.Decorator import Decorator
-
-cmds = Decorator()
+from Console.Decorator import *
+import lista_criptos
 
 class ControllerCmd(ControllerBinance):
     
     @classmethod
     def menu(self, command):
-        @cmds.decorator(command, content_types='data')
+        @Decorator.decorator(command, content_types='data')
         def cmdtData():
             self.data()
         cmdtData()
-        @cmds.decorator(command, content_types='saldo')
+
+        @Decorator.decorator(command, content_types='saldo')
         def cmdtSaldo():
             self.saldo()
         cmdtSaldo()
-        pass
 
+        @Decorator.decorator(command, content_types='ETH')
+        def cmdtSaldoUnidade():
+            print(command)
+            pass
+        cmdtSaldoUnidade()
+            #print(next(x for x in lista_criptos.cripto if x == command))
+
+        @Decorator.decorator(command, content_types='saldounidade')
+        def submenu():
+           self.submenu('Trade CLI>CRIPTO: ')  
+        submenu()
 
     @classmethod
-    def cmd(self, consoleName='Trade CLI'):
-        consoleName = 'Trade CLI'
+    def cmd(self, consoleName='Trade CLI: '):
         while True:
             try:
-                command = input(f'{consoleName}:').lower()
-                if command != 'exit' and command != 'end':
+                command = input(f'{consoleName}').lower()
+                if command != 'exit' and command != 'end':               
                     self.menu(command)
                     pass
                 else:
@@ -38,3 +47,33 @@ class ControllerCmd(ControllerBinance):
                 print('...')
 
 
+    @classmethod
+    def submenu(self, consoleName='Trade CLI: '):
+        while True:    
+            try:   
+                cripto = input(f'{consoleName}').lower()
+                if cripto != 'exit' and cripto != 'end':
+                    self.menu(cripto)
+                    pass
+                else:
+                    break
+            except ValueError: 
+                print('ERRO: Digite um Comando valido', end="\n\n")
+
+
+'''
+        
+        @Decorator.decorator(command, content_types='saldounidade')
+        def cmdtSaldoUnidade():
+            while True:    
+                try:   
+                    cripto = input(f'Trade CLI>CRIPTO: ').lower()
+                    if cripto != 'exit' and cripto != 'end':
+                        self.saldo_unid(cripto.lower())
+                    else:
+                        break
+                except ValueError:
+                    print('ERRO: Digite um Comando valido', end="\n\n")
+        cmdtSaldoUnidade()
+
+'''

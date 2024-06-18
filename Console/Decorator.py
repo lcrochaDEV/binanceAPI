@@ -9,6 +9,3 @@ class Decorator:
                     pass
             return wrapper
         return dec
-
-        def functionExec():
-            pass
