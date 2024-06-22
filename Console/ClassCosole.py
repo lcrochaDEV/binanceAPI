@@ -1,4 +1,5 @@
 from ControllerClass.ClassBinance import ControllerBinance
+from Mensagem.ClassInfo import ControllerInfo
 from Console.Decorator import *
 import lista_criptos
 
@@ -16,7 +17,7 @@ class ControllerCmd(ControllerBinance):
             self.saldo()
         cmdtSaldo()
 
-        @Decorator.decorator(command, content_types='ETH')
+        @Decorator.decorator(command, content_types='USDT')
         def cmdtSaldoUnidade():
             print(command)
             pass

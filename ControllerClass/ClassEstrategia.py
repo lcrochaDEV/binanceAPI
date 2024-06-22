@@ -1,31 +1,59 @@
 from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 from ControllerClass.ClassNegotiation import ControllerNegotiation
 from ControllerClass.ClassBinance import ControllerBinance
+from ControllerClass.ClassAsync import AssyncExec
 
 import asyncio
+import re
+
+client = ControllerAPIConnect.connectStatus()
 
 # ESTRATÉGIA
 class ControllerEstrategia(ControllerBinance):
-    @classmethod
-    async def ordensCompra(self, criptoPar, quantidade):
-        ControllerNegotiation.c('NV')
+    def __init__(self, criptoPar, quantidade=0):
+        self.criptoPar = criptoPar
+        self.quantidade = quantidade
+        self.exec()
+
+    @AssyncExec.decoratorMult
+    async def exec(self):
+        await self.ordensCompra()
+
+    async def ordensCompra(self):
         # ESTRATÉGIA DE COMPRA E VENDA
         while True:
             # TABELAS 
-            df = self.tabela(criptoPar)
+            df = self.tabela(self.criptoPar)
             acumulados = (df.Open.pct_change() +1).cumprod() -1
             #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] > -0.002:
-                ordemDeCompra = ControllerNegotiation(criptoPar, quantidade)
-                ordemDeCompra.exec()
+            if acumulados.iloc[-1] < -0.002:
+                #ordem = ControllerNegotiation(criptoPar, quantidade)
+                #if ordem == True:
+                #self.__ordensVenda(self.criptoPar, self.quantidade)
                 break
             else: 
-                print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos')
+                print(f'{self.simbolName(self.criptoPar, True)}Sem Ordens nos últimos 30 minutos')
                 await asyncio.sleep(20)             
                 #await asyncio.sleep(1800)
 
+    #@classmethod
+    async def __ordensVenda(self, criptoPar, quantidade):
+        # ESTRATÉGIA DE COMPRA E VENDA
+        while True:  
+            # TABELAS 
+            df = self.tabela(criptoPar)
+            acumulados = (df.Open.pct_change() +1).cumprod() -1
+            # CARTEIRA SPOT
+            regexp = re.findall(r"^\w[^USD]+|[BRL]+.", criptoPar)[0]
+            infom = client.get_margin_asset(asset=regexp)
+            print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")
+            df = self.tabela(2, ["date_open", "Open"])
+
+        pass
+'''                
+'''
+
 '''                                  
-    def __stop(self):
             client = ControllerAPIConnect.connectStatus()
             # ESTRATÉGIA DE COMPRA E VENDA
             while True:  

@@ -3,25 +3,23 @@ from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 from binance.enums import *
 from binance.exceptions import BinanceAPIException
 
+client = ControllerAPIConnect.connectStatus()
+
 class ControllerNegotiation:
     def __init__(self, criptoPar, quantidade=0):
         self.criptoPar = criptoPar
         self.quantidade = quantidade
-    
-    def exec(self):
-        self.__compraCripto()
-    
-    def __compraCripto(self):
-        client = ControllerAPIConnect.connectStatus()
+              
+    def compraCripto(self):
         try:
             #PEGAR O VALOR DA QUANTIDADE MINIMA
             info = client.get_symbol_info(self.criptoPar)
             filterMinQty = next((x for x in info['filters'] if x['filterType'] == 'LOT_SIZE'), None)
             minQty = round(float(filterMinQty['minQty']), 5) if filterMinQty else None
-            if minQty >= self.quantidade:
-                ordem = client.create_order(symbol=self.criptoPar, side='SIDE_BUY', type='ORDER_TYPE_MARKET', quantity=0.0001)
+            if minQty <= self.quantidade:
+                #ordem = client.create_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
                 print('Compra Realizada com Sucesso!')
-                #return ordem
+                return
             else:
                 print(f'Investimento Minimo em {self.criptoPar} Permitido {minQty}')
         except BinanceAPIException as e:
@@ -30,7 +28,7 @@ class ControllerNegotiation:
 
     def __vendaCripto(self):
         try:
-            #ordem = client.create_order(symbol=self.criptoPar, side='SIDE_SELL', type='ORDER_TYPE_MARKET', quantity=0.0001)
+            ordem = client.create_order(symbol=self.criptoPar, side='SELL', type='MARKET', quantity=self.quantidade)
             print('Venda Realizada com Sucesso!')
         except BinanceAPIException as e:
             print('Erro ao realizar essa venda.')
