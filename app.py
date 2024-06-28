@@ -9,11 +9,11 @@ from Console.ClassCosole import ControllerCmd
 #ControllerBinance.tabela("NOTUSDT", Screem=True)
 
 AssyncExec.asyncAction(
-    ControllerEstrategia("CVXUSDT", 9.900),
-    ControllerEstrategia("BTCUSDT", 9.900),
-    ControllerEstrategia("NOTUSDT", 9.2267),
+    #ControllerEstrategia.ordensCompra("NOTUSDT", 0),
+    #ControllerEstrategia.ordensCompra("CVXUSDT", 0),
+    ControllerEstrategia.ordensCompra("BTCUSDT", 0),
+    #ControllerEstrategia.ordensCompra("BETAUSDT", 0),
 )
-
 
 
 #porcentagem value-((porcent/100)*value)

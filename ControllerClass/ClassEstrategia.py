@@ -3,6 +3,7 @@ from ControllerClass.ClassNegotiation import ControllerNegotiation
 from ControllerClass.ClassBinance import ControllerBinance
 from ControllerClass.ClassAsync import AssyncExec
 
+import pandas as pd
 import asyncio
 import re
 
@@ -13,41 +14,52 @@ class ControllerEstrategia(ControllerBinance):
     def __init__(self, criptoPar, quantidade=0):
         self.criptoPar = criptoPar
         self.quantidade = quantidade
-        self.exec()
-
-    @AssyncExec.decoratorMult
-    async def exec(self):
-        await self.ordensCompra()
-
-    async def ordensCompra(self):
+     
+    @classmethod
+    async def ordensCompra(self, criptoPar, quantidade):
         # ESTRATÉGIA DE COMPRA E VENDA
         while True:
             # TABELAS 
-            df = self.tabela(self.criptoPar)
+            df = self.tabela(criptoPar)
             acumulados = (df.Open.pct_change() +1).cumprod() -1
             #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
             if acumulados.iloc[-1] < -0.002:
-                #ordem = ControllerNegotiation(criptoPar, quantidade)
+                ordem = ControllerNegotiation(criptoPar, quantidade)
+                ordem.compraCripto()
                 #if ordem == True:
-                #self.__ordensVenda(self.criptoPar, self.quantidade)
+                await self.__ordensVenda(criptoPar, quantidade)
                 break
             else: 
-                print(f'{self.simbolName(self.criptoPar, True)}Sem Ordens nos últimos 30 minutos')
+                print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos')
+                await self.__percentual(criptoPar)
                 await asyncio.sleep(20)             
                 #await asyncio.sleep(1800)
 
-    #@classmethod
+
+    @classmethod
+    async def __percentual(self, criptoPar):
+        df =  self.tabela(criptoPar)
+        valorant = df.iloc[8,0]
+        valorat = df.iloc[9,3]
+        print((((valorat-valorant)/valorant)*100))
+
+    @classmethod
     async def __ordensVenda(self, criptoPar, quantidade):
         # ESTRATÉGIA DE COMPRA E VENDA
-        while True:  
-            # TABELAS 
-            df = self.tabela(criptoPar)
-            acumulados = (df.Open.pct_change() +1).cumprod() -1
-            # CARTEIRA SPOT
+        while True: 
+            # NOME DA MOEDA
             regexp = re.findall(r"^\w[^USD]+|[BRL]+.", criptoPar)[0]
             infom = client.get_margin_asset(asset=regexp)
-            print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")
-            df = self.tabela(2, ["date_open", "Open"])
+            # TABELAS 
+            df = self.tabela(criptoPar)
+            df = self.tabela(criptoPar, numb_colunas=2, listArray=["date_open", "Open"])
+            acumulados = (df.Open.pct_change() +1).cumprod() -1
+            if acumulados.iloc[-1] > -0.002:
+                print(f"{self.simbolName(criptoPar, True)}Venda de Realizada com Sucesso!")
+                break
+            else: 
+                print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")
+                await asyncio.sleep(20)     
 
         pass
 '''                
