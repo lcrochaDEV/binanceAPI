@@ -34,7 +34,7 @@ class ControllerBinance:
     @classmethod
     def simbolName(self, criptoName=None, msg=False):
         if criptoName != None:
-            regexp = re.findall(r"^\w[^USD]+|[BRL]+.", criptoName)[0]
+            regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoName)[0]
             infom = client.get_margin_asset(asset=regexp)
             if msg == False:
                 print(f"Dados de {infom['assetFullName']}({infom['assetName']}): ")
@@ -73,7 +73,7 @@ class ControllerBinance:
     @classmethod        
     def verificarDados(self, criptoPar):
         if criptoPar != None:
-            regexp = re.findall(r"^\w[^USD]+|[BRL]+.", criptoPar)[0]
+            regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoPar)[0]
             
             infom = client.get_margin_asset(asset=regexp)
             infob = client.get_asset_balance(asset=regexp)

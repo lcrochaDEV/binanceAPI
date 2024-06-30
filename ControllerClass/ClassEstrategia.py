@@ -23,7 +23,7 @@ class ControllerEstrategia(ControllerBinance):
             df = self.tabela(criptoPar)
             acumulados = (df.Open.pct_change() +1).cumprod() -1
             #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] < -0.002:
+            if acumulados.iloc[-1] > -0.002:
                 ordem = ControllerNegotiation(criptoPar, quantidade)
                 ordem.compraCripto()
                 #if ordem == True:
@@ -31,7 +31,6 @@ class ControllerEstrategia(ControllerBinance):
                 break
             else: 
                 print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos')
-                await self.__percentual(criptoPar)
                 await asyncio.sleep(20)             
                 #await asyncio.sleep(1800)
 
@@ -41,26 +40,26 @@ class ControllerEstrategia(ControllerBinance):
         df =  self.tabela(criptoPar)
         valorant = df.iloc[8,0]
         valorat = df.iloc[9,3]
-        print((((valorat-valorant)/valorant)*100))
+        return ((valorat-valorant)/valorant)*100
 
     @classmethod
     async def __ordensVenda(self, criptoPar, quantidade):
-        # ESTRATÉGIA DE COMPRA E VENDA
+        df = self.tabela(criptoPar)
+        print(df)
         while True: 
             # NOME DA MOEDA
-            regexp = re.findall(r"^\w[^USD]+|[BRL]+.", criptoPar)[0]
+            regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoPar)[0]
             infom = client.get_margin_asset(asset=regexp)
-            # TABELAS 
-            df = self.tabela(criptoPar)
-            df = self.tabela(criptoPar, numb_colunas=2, listArray=["date_open", "Open"])
-            acumulados = (df.Open.pct_change() +1).cumprod() -1
-            if acumulados.iloc[-1] > -0.002:
+            print(infom['assetName'])
+            if await self.__percentual(criptoPar) < -0.005:
+                print(await self.__percentual(criptoPar))
+                df = self.tabela(criptoPar)
+                print(df)
                 print(f"{self.simbolName(criptoPar, True)}Venda de Realizada com Sucesso!")
                 break
-            else: 
+            else:
                 print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")
-                await asyncio.sleep(20)     
-
+                await asyncio.sleep(20) 
         pass
 '''                
 '''

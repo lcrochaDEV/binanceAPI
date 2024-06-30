@@ -9,10 +9,10 @@ from Console.ClassCosole import ControllerCmd
 #ControllerBinance.tabela("NOTUSDT", Screem=True)
 
 AssyncExec.asyncAction(
-    #ControllerEstrategia.ordensCompra("NOTUSDT", 0),
-    #ControllerEstrategia.ordensCompra("CVXUSDT", 0),
-    ControllerEstrategia.ordensCompra("BTCUSDT", 0),
-    #ControllerEstrategia.ordensCompra("BETAUSDT", 0),
+    #ControllerEstrategia.ordensCompra("NOTUSDT", 9.000),
+    #ControllerEstrategia.ordensCompra("CVXUSDT", 9.000),
+    #ControllerEstrategia.ordensCompra("BTCUSDT", 9.000),
+    ControllerEstrategia.ordensCompra("BONDUSDT", 4449),
 )
 
 
