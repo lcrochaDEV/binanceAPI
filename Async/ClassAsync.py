@@ -4,10 +4,10 @@ class AssyncExec:
 
     @classmethod
     async def __asyncfunction(self, args=None, kwargs=None):
-        try:
+        #try:
             await asyncio.gather(*args, **kwargs)
-        except:
-            print('Erro ao Executar Ordem')
+        #except:
+        #    print('Erro ao Executar Ordem')
 
     @classmethod
     def asyncAction(self, *args, **kwargs):

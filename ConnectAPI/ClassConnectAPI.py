@@ -7,7 +7,7 @@ import os
 class ControllerAPIConnect:
 
     @classmethod
-    def __connectApi(cls):
+    def __connectApi(self):
         try:
             API_KEY_BINANCE = os.getenv("API_KEY")
             API_SECRET_BINANCE = os.getenv("API_SECRET")
@@ -16,9 +16,9 @@ class ControllerAPIConnect:
             print(f'Binance Error: {e.status_code} - {e.message}')
             print(f'Chave ou senha incorretos em Binance API')
 
-    @staticmethod
-    def connectStatus(msg=False):
-        client = ControllerAPIConnect.__connectApi()
+    @classmethod
+    def connectStatus(self, msg=False):
+        client = self.__connectApi()
         status = client.get_system_status()
         while True: 
             if status['status'] == 0:

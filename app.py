@@ -1,6 +1,6 @@
 from ControllerClass.ClassBinance import ControllerBinance
 from ControllerClass.ClassEstrategia import ControllerEstrategia
-from ControllerClass.ClassAsync import AssyncExec
+from Async.ClassAsync import AssyncExec
 from Mensagem.ClassInfo import ControllerInfo
 from Console.ClassCosole import ControllerCmd
 
@@ -8,11 +8,12 @@ from Console.ClassCosole import ControllerCmd
 #ControllerBinance.tabela("BTCUSDT", Screem=True)
 #ControllerBinance.tabela("NOTUSDT", Screem=True)
 
+
 AssyncExec.asyncAction(
     #ControllerEstrategia.ordensCompra("NOTUSDT", 9.000),
-    #ControllerEstrategia.ordensCompra("CVXUSDT", 9.000),
+    ControllerEstrategia.ordensCompra("MLNUSDT", 0),
     #ControllerEstrategia.ordensCompra("BTCUSDT", 9.000),
-    ControllerEstrategia.ordensCompra("BONDUSDT", 4449),
+    #ControllerEstrategia.ordensCompra("ENSUSDT", 9.000),
 )
 
 

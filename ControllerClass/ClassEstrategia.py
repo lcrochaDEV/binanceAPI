@@ -1,7 +1,6 @@
 from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 from ControllerClass.ClassNegotiation import ControllerNegotiation
 from ControllerClass.ClassBinance import ControllerBinance
-from ControllerClass.ClassAsync import AssyncExec
 
 import pandas as pd
 import asyncio
@@ -44,18 +43,13 @@ class ControllerEstrategia(ControllerBinance):
 
     @classmethod
     async def __ordensVenda(self, criptoPar, quantidade):
-        df = self.tabela(criptoPar)
-        print(df)
-        while True: 
+        while True:
             # NOME DA MOEDA
             regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoPar)[0]
             infom = client.get_margin_asset(asset=regexp)
-            print(infom['assetName'])
-            if await self.__percentual(criptoPar) < -0.005:
-                print(await self.__percentual(criptoPar))
-                df = self.tabela(criptoPar)
-                print(df)
-                print(f"{self.simbolName(criptoPar, True)}Venda de Realizada com Sucesso!")
+            if await self.__percentual(criptoPar) <= -0.005:
+                ordem = ControllerNegotiation(criptoPar, quantidade)
+                ordem.vendaCripto()
                 break
             else:
                 print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")

@@ -8,7 +8,6 @@ client = ControllerAPIConnect.connectStatus()
 class ControllerBinance:
     @staticmethod 
     def data():
-        client = ControllerAPIConnect.connectStatus()
         #print(Client.get_account_status)
         # TIME DO SERVIDOR BINANCE
         time_res = client.get_server_time()['serverTime']
@@ -32,14 +31,15 @@ class ControllerBinance:
 
     # NOME DA MOEDA
     @classmethod
-    def simbolName(self, criptoName=None, msg=False):
+    def simbolName(self, criptoName=None, Screem = False):
         if criptoName != None:
             regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoName)[0]
             infom = client.get_margin_asset(asset=regexp)
-            if msg == False:
+            if Screem == False:
                 print(f"Dados de {infom['assetFullName']}({infom['assetName']}): ")
             else:
                 return f"Dados de {infom['assetFullName']}({infom['assetName']}): "
+            
     # TABELAS
     @classmethod
     def tabela(self, criptoPar, start_str = '3m', end_str = '30m', numb_colunas=6, listArray = ["date_open", "Open", "High", "Low", "Close", "Volume"], Screem = False):
@@ -61,7 +61,6 @@ class ControllerBinance:
 
     @classmethod   
     def calculoValorQuantidade(self, criptoPar, quantidade, Screem = False):
-        client = ControllerAPIConnect.connectStatus()
         #CALCULO DO VALOR EM USDT CONVETENDO PARA QUANTIDADE EM CRIPTO
         flm_price = client.get_margin_price_index(symbol=criptoPar)
         # VALOR EM DOLAR(USDT)
@@ -87,3 +86,27 @@ class ControllerBinance:
 
             #res = client.get_historical_klines(self.criptoPar, '3m', '30m')
             print()
+
+    @classmethod
+    def status_ordes_abertas(self, criptoPar, Screem = False):
+        orders = client.get_open_orders(symbol=criptoPar)
+        if Screem == True:
+            print(orders)
+        else:
+            return orders
+
+    @classmethod   
+    def check_order_status(self, criptoPar, id, Screem = False):
+        order = client.get_order(symbol=criptoPar, orderId=id)
+        if Screem == True:
+            print(order)
+        else:
+            return order
+        
+    @classmethod
+    def cancel_an_order(self, criptoPar, id, Screem = False):
+        result = client.cancel_order(symbol=criptoPar, orderId=id)
+        if Screem == True:
+            print(result)
+        else:
+            return result
