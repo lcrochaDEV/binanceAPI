@@ -65,7 +65,7 @@ import pandas as pd
  
                 if len(ordem_executada) > 0:
                     retorno_ordem_executada = (df.Open.pct_change() + 1).cumprod() -1
-                    retorno_ordem_executada[-1] > 0.0015 or retorno_ordem_executada[-1] > -0.0015
+                    retorno_ordem_executada[-1] > 0.0015 or retorno_ordem_executada[-1] < -0.0015
                     ordem = client.create_order(symbol=self.criptoPar, side='SIDE_SELL', type='ORDER_TYPE_MARKET', quantity=0.0001)
                     print('Venda Realizada com Sucesso!')
                     break

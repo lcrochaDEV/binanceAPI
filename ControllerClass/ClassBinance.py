@@ -1,4 +1,5 @@
 from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
+from ControllerClass.Decorator import *
 import pandas as pd
 from datetime import datetime
 
@@ -27,7 +28,11 @@ class ControllerBinance:
     def saldo_unid(cripto):
         ControllerBinance.data()
         balance = client.get_asset_balance(asset=cripto)
-        print(f"Cripto: {balance['asset']} Saldo: {balance['free']}", end='\n\n')
+        if balance != None:
+            print(f"Cripto: {balance['asset']} Saldo: {balance['free']}", end='\n\n')
+        else:
+            print('Digite um ativo existente.')
+
 
     # NOME DA MOEDA
     @classmethod
@@ -89,24 +94,28 @@ class ControllerBinance:
 
     @classmethod
     def status_ordes_abertas(self, criptoPar, Screem = False):
-        orders = client.get_open_orders(symbol=criptoPar)
+        orders = client.get_open_orders(symbol=criptoPar)        
         if Screem == True:
             print(orders)
         else:
             return orders
 
-    @classmethod   
-    def check_order_status(self, criptoPar, id, Screem = False):
+    @classmethod
+    def check_order_status(self, criptoPar, id=0, Screem = False):
         order = client.get_order(symbol=criptoPar, orderId=id)
         if Screem == True:
             print(order)
         else:
             return order
-        
+
+
     @classmethod
-    def cancel_an_order(self, criptoPar, id, Screem = False):
-        result = client.cancel_order(symbol=criptoPar, orderId=id)
+    @Decorator.DecoratorInput
+    def cancel_an_order(self, criptoPar, id=0, Screem = False):
+        result = client.cancel_order(symbol=criptoPar, orderId=id, Screem=True)
+        print(result)
         if Screem == True:
             print(result)
+            print('Ordens canceladas')
         else:
             return result

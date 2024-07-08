@@ -1,6 +1,7 @@
 from ConnectAPI.ClassConnectAPI import ControllerAPIConnect
 from ControllerClass.ClassNegotiation import ControllerNegotiation
 from ControllerClass.ClassBinance import ControllerBinance
+from Async.ClassAsync import AssyncExec
 
 import pandas as pd
 import asyncio
@@ -21,7 +22,7 @@ class ControllerEstrategia(ControllerBinance):
             # TABELAS 
             df = self.tabela(criptoPar)
             acumulados = (df.Open.pct_change() +1).cumprod() -1
-            #print(f'{self.criptoPar} {round(acumulados.iloc[-1], 3)}')
+            print(f'{criptoPar} {round(acumulados.iloc[-1], 3)}')
             if acumulados.iloc[-1] > -0.002:
                 ordem = ControllerNegotiation(criptoPar, quantidade)
                 ordem.compraCripto()
@@ -29,8 +30,8 @@ class ControllerEstrategia(ControllerBinance):
                 await self.__ordensVenda(criptoPar, quantidade)
                 break
             else: 
-                print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos')
-                await asyncio.sleep(20)             
+                print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos\n')
+                await asyncio.sleep(20)         
                 #await asyncio.sleep(1800)
 
 
@@ -39,6 +40,7 @@ class ControllerEstrategia(ControllerBinance):
         df =  self.tabela(criptoPar)
         valorant = df.iloc[8,0]
         valorat = df.iloc[9,3]
+        print(((valorat-valorant)/valorant)*100)
         return ((valorat-valorant)/valorant)*100
 
     @classmethod
@@ -47,7 +49,7 @@ class ControllerEstrategia(ControllerBinance):
             # NOME DA MOEDA
             regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoPar)[0]
             infom = client.get_margin_asset(asset=regexp)
-            if await self.__percentual(criptoPar) <= -0.005:
+            if await self.__percentual(criptoPar) < -0.005:
                 ordem = ControllerNegotiation(criptoPar, quantidade)
                 ordem.vendaCripto()
                 break

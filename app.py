@@ -4,21 +4,27 @@ from Async.ClassAsync import AssyncExec
 from Mensagem.ClassInfo import ControllerInfo
 from Console.ClassCosole import ControllerCmd
 
-#ControllerBinance.tabela("ETHUSDT", Screem=True)
-#ControllerBinance.tabela("BTCUSDT", Screem=True)
-#ControllerBinance.tabela("NOTUSDT", Screem=True)
+    #ControllerBinance.tabela("ETHUSDT", Screem=True)
+    #ControllerBinance.tabela("BTCUSDT", Screem=True)
+    #ControllerBinance.tabela("NOTUSDT", Screem=True)
 
-
-AssyncExec.asyncAction(
-    #ControllerEstrategia.ordensCompra("NOTUSDT", 9.000),
-    ControllerEstrategia.ordensCompra("MLNUSDT", 0),
-    #ControllerEstrategia.ordensCompra("BTCUSDT", 9.000),
-    #ControllerEstrategia.ordensCompra("ENSUSDT", 9.000),
-)
+#while True:
+#    AssyncExec.asyncAction(
+#        #ControllerEstrategia.ordensCompra("NOTUSDT", 9.000),
+#        ControllerEstrategia.ordensCompra("BETAUSDT", 9000),
+#        ControllerEstrategia.ordensCompra("BTCUSDT", 9.000),
+        #ControllerEstrategia.ordensCompra("ENSUSDT", 9.000),
+#    )
 
 
 #porcentagem value-((porcent/100)*value)
 #5 = 6.900
+
+
+#ControllerBinance.status_ordes_abertas("BTCUSDT")
+
+if __name__ == '__main__':
+    ControllerCmd.cmd()
 
 '''
 import time 
@@ -39,8 +45,7 @@ def stop():
     
 stop()
 '''
-#if __name__ == '__main__':
-#    ControllerCmd.cmd()
+
 
 #PEGA 100% DE UM CRIPTO PARA QUALQUER MOÉDA CRIPTO
 '''

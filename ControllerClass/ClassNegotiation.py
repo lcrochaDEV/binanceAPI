@@ -17,12 +17,13 @@ class ControllerNegotiation(ControllerBinance):
             info = client.get_symbol_info(self.criptoPar)
             filterMinQty = next((x for x in info['filters'] if x['filterType'] == 'LOT_SIZE'), None)
             minQty = round(float(filterMinQty['minQty']), 5) if filterMinQty else None
-            if minQty <= self.quantidade and self.status_ordes_abertas() == False:
+            if minQty <= self.quantidade and self.status_ordes_abertas(self.criptoPar) == []:
                 #Teste
                 ordem = client.create_test_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
                 #ordem = client.create_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
                 print('Compra Realizada com Sucesso!')
-
+            elif self.status_ordes_abertas(self.criptoPar) != []:
+                print(f'Exitem ordens em aberto.')
             else:
                 print(f'Investimento Minimo em {self.criptoPar} Permitido {minQty}')
         except BinanceAPIException as e:
