@@ -3,18 +3,20 @@ from ControllerClass.ClassEstrategia import ControllerEstrategia
 from Async.ClassAsync import AssyncExec
 from Mensagem.ClassInfo import ControllerInfo
 from Console.ClassCosole import ControllerCmd
+from Websocket.Websocket import WebsocketUsage
+import asyncio
 
-    #ControllerBinance.tabela("ETHUSDT", Screem=True)
-    #ControllerBinance.tabela("BTCUSDT", Screem=True)
-    #ControllerBinance.tabela("NOTUSDT", Screem=True)
+#ControllerBinance.tabela("ETHUSDT", Screem=True)
+#ControllerBinance.tabela("BTCUSDT", Screem=True)
+#ControllerBinance.tabela("NOTUSDT", Screem=True)
 
-#while True:
-#    AssyncExec.asyncAction(
-#        #ControllerEstrategia.ordensCompra("NOTUSDT", 9.000),
-#        ControllerEstrategia.ordensCompra("BETAUSDT", 9000),
-#        ControllerEstrategia.ordensCompra("BTCUSDT", 9.000),
-        #ControllerEstrategia.ordensCompra("ENSUSDT", 9.000),
-#    )
+
+while True:
+    AssyncExec.asyncAction(
+        #ControllerEstrategia.ordensCompra("BETAUSDT", 9000),
+        ControllerEstrategia.ordensCompra("BTCUSDT", 9.000),
+        #ControllerEstrategia.ordensCompra("ENSUSDT", 0.900),
+)
 
 
 #porcentagem value-((porcent/100)*value)
@@ -23,8 +25,15 @@ from Console.ClassCosole import ControllerCmd
 
 #ControllerBinance.status_ordes_abertas("BTCUSDT")
 
-if __name__ == '__main__':
-    ControllerCmd.cmd()
+
+#HABILITA O CONSOLE
+#if __name__ == '__main__':
+#    ControllerCmd.cmd()
+
+#WEBSOCKET
+#if __name__ == '__main__':
+#    WebsocketUsage.WebsocketUserge()
+    
 
 '''
 import time 

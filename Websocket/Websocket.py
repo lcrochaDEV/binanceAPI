@@ -1,10 +1,10 @@
 import asyncio
 from binance import AsyncClient, BinanceSocketManager
 
-
 class WebsocketUsage:
 
-    async def __websocket(self):
+    @classmethod
+    async def __websocket(self, args=None, kwargs=None):
 
         client = await AsyncClient.create(tld='us')
         bm = BinanceSocketManager(client)
@@ -19,6 +19,6 @@ class WebsocketUsage:
         await client.close_connection()
 
     @classmethod
-    async def WebsocketUserge(self, *args, **kwargs):
+    def WebsocketUserge(self, *args, **kwargs):
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(WebsocketUsage.__websocket(args, kwargs))
+        loop.run_until_complete(WebsocketUsage.__websocket())

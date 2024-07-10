@@ -58,6 +58,7 @@ class ControllerBinance:
             df = df.astype(float)
             if Screem == True:
                 self.simbolName(criptoPar)
+                print(f'Tabela de Informações {criptoPar} dos Últimos 30 Minutos')
                 print(df)
             else:
                 return df

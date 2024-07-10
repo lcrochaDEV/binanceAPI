@@ -2769,3 +2769,16 @@ cripto = [
     'GUISE',
     'AA'
 ]
+
+'''
+URL = 'https://br.investing.com/crypto/currencies'
+
+
+let l = document.querySelectorAll('.text-inv-grey-650')
+for (let i=0; i < 20000; i++){
+    if ((i%2) == 1 ){
+    console.log(l[i].innerText)
+    }
+}
+
+'''

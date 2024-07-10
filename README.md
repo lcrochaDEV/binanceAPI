@@ -6,7 +6,6 @@
 python -m venv .venv
 ```
 
-
 ### Ativação do ambiente virtual no Windows
 
 ```shell
@@ -14,7 +13,7 @@ python -m venv .venv
 ```
 
 ### Para Instalação no Debia 12 foi criado um Ambiente Virtual
- #### Crie um ambiente virtual usando venv ou virtual env Certifique-se venv de que esteja instalado executando:
+#### Crie um ambiente virtual usando venv ou virtual env Certifique-se venv de que esteja instalado executando:
 ```shell
 sudo apt install python3-venv
 ```
@@ -35,10 +34,14 @@ Os arquivos serão instalados no env/diretório.
 Se quiser sair do ambiente virtual, você pode executar:
 ```shell
 deactivate
+```
 
 ### Instalação de Bibliotecas:
+```shell
 pip install python-binance
 pip install python-dotenv
+pip install pandas
+
 ```
 
 ```py

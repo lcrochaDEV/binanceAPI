@@ -21,9 +21,9 @@ class ControllerNegotiation(ControllerBinance):
                 #Teste
                 ordem = client.create_test_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
                 #ordem = client.create_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
-                print('Compra Realizada com Sucesso!')
+                print('Compra Realizada com Sucesso!\n')
             elif self.status_ordes_abertas(self.criptoPar) != []:
-                print(f'Exitem ordens em aberto.')
+                print(f'Exitem ordens em aberto.\n')
             else:
                 print(f'Investimento Minimo em {self.criptoPar} Permitido {minQty}')
         except BinanceAPIException as e:
@@ -35,7 +35,7 @@ class ControllerNegotiation(ControllerBinance):
         try:
             ordem = client.create_test_order(symbol=self.criptoPar, side='SELL', type='MARKET', quantity=self.quantidade)
             #ordem = client.create_order(symbol=self.criptoPar, side='SELL', type='MARKET', quantity=self.quantidade)
-            print(f"{self.simbolName(self.criptoPar, True)}Venda de Realizada com Sucesso!")
+            print(f"{self.simbolName(self.criptoPar, True)}Venda de Realizada com Sucesso!\n")
 
         except BinanceAPIException as e:
             print('Erro ao realizar essa venda.')

@@ -7,3 +7,4 @@ venv/
 notas.txt
 Dockerfile
 .lxenv
+.lnx-venv

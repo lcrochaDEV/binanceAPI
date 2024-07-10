@@ -1,7 +1,6 @@
 from ControllerClass.ClassBinance import ControllerBinance
 from Mensagem.ClassInfo import ControllerInfo
 from Console.Decorator import *
-import asyncio
 import lista_criptos
 
 class ControllerCmd():
