@@ -18,19 +18,19 @@ class ControllerEstrategia(ControllerBinance):
     async def ordensCompra(self, criptoPar, quantidade):
         # ESTRATÉGIA DE COMPRA E VENDA
         while True:
-            await self.__percentual(criptoPar)
             # TABELAS 
-            df = self.tabela(criptoPar)
-            acumulados = ((df.Open.pct_change()).cumprod() +1).cumprod() -1
+            #df = self.tabela(criptoPar)
+            #acumulados = ((df.Open.pct_change()).cumprod() +1).cumprod() -1
             #print(f'{criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] > -0.002:
+            #if acumulados.iloc[-1] > -0.002:
+            if await self.__percentual(criptoPar) > -0.002:
                 ordem = ControllerNegotiation(criptoPar, quantidade)
                 ordem.compraCripto()
                 #if ordem == True:
                 await self.__ordensVenda(criptoPar, quantidade)
                 break
             else: 
-                print(f'{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos\n')
+                print(f"\033[33m{self.simbolName(criptoPar, True)}Sem Ordens nos últimos 30 minutos\n\033[0m")
                 await asyncio.sleep(20)         
                 #await asyncio.sleep(1800)
     
@@ -39,6 +39,8 @@ class ControllerEstrategia(ControllerBinance):
         df =  self.tabela(criptoPar)
         #((valor_atual-valor_aterior)/valor_aterior)*100
         print((df.iloc[-1, 3]-df.iloc[-2, 0])/df.iloc[-2, 0]*100)
+        print(f'{df.iloc[-2, 0]} {df.iloc[-1, 3]}')
+        self.tabela(criptoPar, Screem=True)
         return (df.iloc[-1, 3]-df.iloc[-2, 0])/df.iloc[-2, 0]*100
     
     @classmethod
@@ -48,18 +50,12 @@ class ControllerEstrategia(ControllerBinance):
             # NOME DA MOEDA
             regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoPar)[0]
             infom = client.get_margin_asset(asset=regexp)
-            #if await self.__percentual(criptoPar) < -0.005:
-            # TABELAS 
-            df = self.tabela(criptoPar)
-            print(df)
-            acumulados = (df.Open.pct_change() +1).cumprod() -1
-            #print(f'{criptoPar} {round(acumulados.iloc[-1], 3)}')
-            if acumulados.iloc[-1] < -0.005:
+            if await self.__percentual(criptoPar) < -0.005:
                 ordem = ControllerNegotiation(criptoPar, quantidade)
                 ordem.vendaCripto()
                 break
             else:
-                print(f"{infom['assetFullName']}({infom['assetName']}) em Processamento...\n")
+                print(f"\033[33m{infom['assetFullName']}({infom['assetName']}) em Processamento...\n\033[0m")
                 await asyncio.sleep(20) 
         pass
 '''                

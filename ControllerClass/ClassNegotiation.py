@@ -21,23 +21,22 @@ class ControllerNegotiation(ControllerBinance):
                 #Teste
                 ordem = client.create_test_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
                 #ordem = client.create_order(symbol=self.criptoPar, side='BUY', type='MARKET', quantity=self.quantidade)
-                print('Compra Realizada com Sucesso!\n')
+                print('\033[32mCompra Realizada com Sucesso!\n\033[0m')
             elif self.status_ordes_abertas(self.criptoPar) != []:
-                print(f'Exitem ordens em aberto.\n')
+                print(f"\033[33mExitem ordens em aberto.\033[0m")
             else:
-                print(f'Investimento Minimo em {self.criptoPar} Permitido {minQty}')
+                print(f"\033[33mInvestimento Minimo em {self.criptoPar} Permitido {minQty}\033[0m")
         except BinanceAPIException as e:
-            print('Erro ao realizar essa compra.')
-            print(f'Binance Error: {e.status_code} - {e.message}')
+            print("\033[91mErro ao realizar essa compra.\033[0m")
+            print(f"\033[91mBinance Error: {e.status_code} - {e.message}\033[0m")
 
  
     def vendaCripto(self):
         try:
             ordem = client.create_test_order(symbol=self.criptoPar, side='SELL', type='MARKET', quantity=self.quantidade)
             #ordem = client.create_order(symbol=self.criptoPar, side='SELL', type='MARKET', quantity=self.quantidade)
-            print(f"{self.simbolName(self.criptoPar, True)}Venda de Realizada com Sucesso!\n")
+            print(f"\033[32m{self.simbolName(self.criptoPar, True)}Venda de Realizada com Sucesso!\n\033[0m")
 
         except BinanceAPIException as e:
-            print('Erro ao realizar essa venda.')
-            print(f'Binance Error: {e.status_code} - {e.message}')
-
+            print("\033[91mErro ao realizar essa venda.\033[0m")
+            print(f"\033[91mBinance Error: {e.status_code} - {e.message}\033[0m")

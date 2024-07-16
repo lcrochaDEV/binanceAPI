@@ -13,7 +13,7 @@ class ControllerBinance:
         # TIME DO SERVIDOR BINANCE
         time_res = client.get_server_time()['serverTime']
         server_time = datetime.fromtimestamp(time_res / 1000).strftime('Data/Hora Binance %d/%m/%Y - %HH%M')
-        print(f'{server_time}', end='\n\n')
+        print(f"\033[32m{server_time}', end='\n\n\033[0m")
 
     @staticmethod
     def saldo():   
@@ -41,7 +41,7 @@ class ControllerBinance:
             regexp = re.findall(r"^\w[^US]+|[BRL]+.", criptoName)[0]
             infom = client.get_margin_asset(asset=regexp)
             if Screem == False:
-                print(f"Dados de {infom['assetFullName']}({infom['assetName']}): ")
+                print(f"\033[36mDados de {infom['assetFullName']}({infom['assetName']}): \033[0m")
             else:
                 return f"Dados de {infom['assetFullName']}({infom['assetName']}): "
             
@@ -58,8 +58,10 @@ class ControllerBinance:
             df = df.astype(float)
             if Screem == True:
                 self.simbolName(criptoPar)
-                print(f'Tabela de Informações {criptoPar} dos Últimos 30 Minutos')
-                print(df)
+                print(f"\033[36mTabela de Informações {criptoPar} dos Últimos 30 Minutos\033[0m")
+                print(f"\033[35m{df}\033[0m")
+                acumulados = ((df.Open.pct_change()).cumprod() +1).cumprod() -1
+                print(f"\033[36mAcumulados {criptoPar} {round(acumulados.iloc[-1], 3)}\n\033[0m")
             else:
                 return df
         except:
